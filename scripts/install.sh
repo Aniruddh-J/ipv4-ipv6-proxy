@@ -13,13 +13,15 @@ gen64() {
 }
 install_3proxy() {
     echo "installing 3proxy"
+    mkdir -p /3proxy
+    cd /3proxy
     URL="https://github.com/z3APA3A/3proxy/archive/0.9.2.tar.gz"
     wget -qO- $URL | bsdtar -xvf-
-    cd 3proxy-3proxy-0.9.2
+    cd 3proxy-0.9.2
     make -f Makefile.Linux
     mkdir -p /usr/local/etc/3proxy/{bin,logs,stat}
-    cp bin/3proxy /usr/local/etc/3proxy/bin/
-    cp ./scripts/3proxy.service /etc/systemd/system/multi-user.target.wants/
+    cp /3proxy/3proxy-0.9.2/bin/3proxy /usr/local/etc/3proxy/bin/
+    cp /3proxy/3proxy-0.9.2/scripts/3proxy.service /etc/systemd/system/multi-user.target.wants/
     systemctl enable 3proxy
     cd $WORKDIR
 }
