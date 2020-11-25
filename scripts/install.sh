@@ -16,7 +16,6 @@ install_3proxy() {
     URL="https://github.com/z3APA3A/3proxy/archive/0.9.2.tar.gz"
     wget -qO- $URL | bsdtar -xvf-
     cd 3proxy-3proxy-0.9.2
-    yum install make -y
     make -f Makefile.Linux
     mkdir -p /usr/local/etc/3proxy/{bin,logs,stat}
     cp bin/3proxy /usr/local/etc/3proxy/bin/
@@ -79,7 +78,7 @@ $(awk -F "/" '{print "ifconfig eth0 inet6 add " $5 "/64"}' ${WORKDATA})
 EOF
 }
 echo "installing apps"
-yum -y install gcc net-tools bsdtar zip >/dev/null
+yum -y install gcc net-tools bsdtar zip make >/dev/null
 
 install_3proxy
 
@@ -110,7 +109,7 @@ cat >>/etc/rc.local <<EOF
 bash ${WORKDIR}/boot_iptables.sh
 bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 10048
-service 3proxy start
+    systemctl start 3proxy
 EOF
 
 bash /etc/rc.local
