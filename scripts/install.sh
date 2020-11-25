@@ -109,7 +109,7 @@ cat >>/etc/rc.local <<EOF
 bash ${WORKDIR}/boot_iptables.sh
 bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 10048
-    systemctl start 3proxy
+systemctl start 3proxy
 EOF
 
 bash /etc/rc.local
