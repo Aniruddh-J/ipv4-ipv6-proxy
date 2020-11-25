@@ -21,7 +21,8 @@ install_3proxy() {
     make -f Makefile.Linux
     mkdir -p /usr/local/etc/3proxy/{bin,logs,stat}
     mv /3proxy/3proxy-0.9.2/bin/3proxy /usr/local/etc/3proxy/bin/
-    mv /3proxy/3proxy-0.9.2/scripts/3proxy.service /etc/systemd/system/multi-user.target.wants/
+    mv /3proxy/3proxy-0.9.2/scripts/3proxy.service /usr/lib/systemd/system/
+    systemctl daemon-reload
     systemctl enable 3proxy
     cd $WORKDIR
 }
