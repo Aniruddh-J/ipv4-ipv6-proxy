@@ -1,5 +1,5 @@
 echo "installing apps"
-yum -y install gcc net-tools bsdtar zip >/dev/null
+yum -y install gcc net-tools bsdtar zip make >/dev/null
 
 install_3proxy
 
@@ -30,7 +30,7 @@ cat >>/etc/rc.local <<EOF
 bash ${WORKDIR}/boot_iptables.sh
 bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 2048
-service 3proxy start
+systemctl start 3proxy
 EOF
 
 bash /etc/rc.local
