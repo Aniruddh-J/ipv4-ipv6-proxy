@@ -26,6 +26,8 @@ install_3proxy() {
     systemctl link /usr/lib/systemd/system/3proxy.service
     systemctl daemon-reload
     systemctl enable 3proxy
+    echo "* hard nofile 999999" >>  /etc/security/limits.conf
+    echo "* soft nofile 999999" >>  /etc/security/limits.conf
     cd $WORKDIR
 }
 
