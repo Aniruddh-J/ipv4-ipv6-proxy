@@ -126,6 +126,8 @@ chmod +x boot_*.sh /etc/rc.local
 gen_3proxy >/usr/local/etc/3proxy/3proxy.cfg
 
 cat >>/etc/rc.local <<EOF
+systemctl start NetworkManager.service
+ifup ens3
 bash ${WORKDIR}/boot_iptables.sh
 bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 10048
