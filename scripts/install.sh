@@ -22,7 +22,8 @@ install_3proxy() {
     mkdir -p /usr/local/etc/3proxy/{bin,logs,stat}
     mv /3proxy/3proxy-0.9.2/bin/3proxy /usr/local/etc/3proxy/bin/
     wget https://raw.githubusercontent.com/xlandgroup/ipv4-ipv6-proxy/master/scripts/3proxy.service-Centos8 --output-document=/3proxy/3proxy-0.9.2/scripts/3proxy.service2
-    mv /3proxy/3proxy-0.9.2/scripts/3proxy.service2 /usr/lib/systemd/system/
+    cp /3proxy/3proxy-0.9.2/scripts/3proxy.service2 /usr/lib/systemd/system/3proxy.service
+    cp /usr/lib/systemd/system/3proxy.service /etc/systemd/system/multi-user.target.wants/
     systemctl daemon-reload
     systemctl enable 3proxy
     cd $WORKDIR
