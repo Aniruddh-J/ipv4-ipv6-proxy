@@ -70,7 +70,7 @@ EOF
 
 upload_proxy() {
     local PASS=$(random)
-    zip --password $PASS proxy.zip /home/proxy-installer/proxy.txt
+    zip --password $PASS /home/proxy-installer/proxy.zip /home/proxy-installer/proxy.txt
     #URL=$(curl -s --upload-file proxy.zip https://transfer.sh/proxy.zip)
 
     echo "Proxy is ready! Format IP:PORT:LOGIN:PASS"
@@ -125,7 +125,7 @@ gen_3proxy >/usr/local/etc/3proxy/3proxy.cfg
 
 cat >>/etc/rc.local <<EOF
 bash ${WORKDIR}/boot_iptables.sh
-#bash ${WORKDIR}/boot_ifconfig.sh
+bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 10048
 /usr/local/etc/3proxy/bin/3proxy /usr/local/etc/3proxy/3proxy.cfg &
 EOF
