@@ -59,7 +59,7 @@ EOF
 
 upload_proxy() {
     local PASS=$(random)
-    zip --password $PASS proxy.zip /${WORKDATA}/proxy.txt
+    zip --password $PASS proxy.zip /home/proxy-installer/proxy.txt
     URL=$(curl -s --upload-file proxy.zip https://transfer.sh/proxy.zip)
 
     echo "Proxy is ready! Format IP:PORT:LOGIN:PASS"
