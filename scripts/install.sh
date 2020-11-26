@@ -25,7 +25,7 @@ install_3proxy() {
     cp /3proxy/3proxy-0.9.2/scripts/3proxy.service2 /usr/lib/systemd/system/3proxy.service
     systemctl link /usr/lib/systemd/system/3proxy.service
     systemctl daemon-reload
-    systemctl enable 3proxy
+#    systemctl enable 3proxy
     echo "* hard nofile 999999" >>  /etc/security/limits.conf
     echo "* soft nofile 999999" >>  /etc/security/limits.conf
     cd $WORKDIR
@@ -116,7 +116,7 @@ cat >>/etc/rc.local <<EOF
 bash ${WORKDIR}/boot_iptables.sh
 #bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 10048
-systemctl start 3proxy
+/usr/local/etc/3proxy/bin/3proxy /usr/local/etc/3proxy/3proxy.cfg &
 EOF
 
 bash /etc/rc.local
