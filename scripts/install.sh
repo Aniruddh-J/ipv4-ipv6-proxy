@@ -40,10 +40,16 @@ install_3proxy() {
     cd $WORKDIR
 }
 
+gen_3proxy_users() {
+    cat <<EOF
+    $(awk -F "/" '{$1 ":CL:" $2}' ${WORKDATA}) 
+EOF
+}
+
 gen_3proxy() {
     cat <<EOF
 daemon
-maxconn 5
+maxconn 1000
 nserver 8.8.8.8
 nserver 8.8.4.4
 nserver 2001:4860:4860::8888
@@ -55,7 +61,7 @@ setuid 65535
 flush
 auth strong
 
-users $(awk -F "/" 'BEGIN{ORS="";} {print $1 ":CL:" $2 " "}' ${WORKDATA})
+users \$/usr/local/etc/3proxy/passwd
 
 $(awk -F "/" '{print "auth strong\n" \
 "allow " $1 "\n" \
@@ -124,6 +130,7 @@ gen_ifconfig >$WORKDIR/boot_ifconfig.sh
 chmod +x boot_*.sh /etc/rc.local
 
 gen_3proxy >/usr/local/etc/3proxy/3proxy.cfg
+gen_3proxy_users >/usr/local/etc/3proxy/passwd
 
 cat >>/etc/rc.local <<EOF
 systemctl start NetworkManager.service
