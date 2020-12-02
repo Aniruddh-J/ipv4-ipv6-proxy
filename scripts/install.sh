@@ -42,7 +42,7 @@ install_3proxy() {
 
 gen_3proxy_users() {
     cat <<EOF
-    $(awk -F "/" '{$1 ":CL:" $2}' ${WORKDATA}) 
+    $(awk -F "/" '{print $1 ":CL:" $2}' ${WORKDATA}) 
 EOF
 }
 
@@ -124,20 +124,28 @@ read COUNT
 FIRST_PORT=10000
 LAST_PORT=$(($FIRST_PORT + $COUNT))
 
+echo "Generating data..."
 gen_data >$WORKDIR/data.txt
+echo "Generating IPtables rules..."
 gen_iptables >$WORKDIR/boot_iptables.sh
+echo "Generating ifconfig..."
 gen_ifconfig >$WORKDIR/boot_ifconfig.sh
 chmod +x boot_*.sh /etc/rc.local
 
+echo "Generating 3proxy config..."
 gen_3proxy >/usr/local/etc/3proxy/3proxy.cfg
+echo "Generating 3proxy users file..."
 gen_3proxy_users >/usr/local/etc/3proxy/passwd
 
 cat >>/etc/rc.local <<EOF
 systemctl start NetworkManager.service
 ifup ens3
+echo "Executing iptable rules..."
 bash ${WORKDIR}/boot_iptables.sh
+echo "Executing ifconfig..."
 bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 10048
+echo "Starting 3proxy using generated config file"
 /usr/local/etc/3proxy/bin/3proxy /usr/local/etc/3proxy/3proxy.cfg &
 EOF
 
